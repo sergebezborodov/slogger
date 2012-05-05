@@ -64,7 +64,7 @@ class SLoggerFileHandler extends SLoggerBaseHandler
 
         // file name has directory
         if ((($dirSlash = strpos($file, '/')) !== false) || strpos($file, '\\') !== false) {
-            $dir = $this->getPath() . DIRECTORY_SEPARATOR . strrpos($file, $dirSlash ? '/' : '\\');
+            $dir = $this->getPath() . DIRECTORY_SEPARATOR . substr($file, 0, strrpos($file, $dirSlash ? '/' : '\\'));
             if (!file_exists($dir) && !mkdir($dir, $this->directoryMode, true)) {
                 throw new SLoggerException("Unable to create log directory '{$dir}'");
             }

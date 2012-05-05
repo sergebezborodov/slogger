@@ -3,7 +3,7 @@
 /**
  * Base class for string loggers
  */
-class SLoggerDefaultFormatter extends SLoggerBaseFormater
+class SLoggerDefaultFormater extends SLoggerBaseFormater
 {
     /**
      * @var string format string for date and time (for 'date' function)
@@ -13,7 +13,7 @@ class SLoggerDefaultFormatter extends SLoggerBaseFormater
     /**
      * @var string log message format
      */
-    public $messageFormat = '{date} [{level}{level-spaces}]{from} {message}';
+    public $messageFormat = '{date} [{level}]{level-spaces} {from} {message}';
 
     /**
      * @var int string length of longest log level name
@@ -69,6 +69,6 @@ class SLoggerDefaultFormatter extends SLoggerBaseFormater
             '{from}'         => $from,
         );
 
-        return str_replace(array_keys($values), array_values($values), $this->messageFormat);
+        return str_replace(array_keys($values), array_values($values), $this->messageFormat) . PHP_EOL;
     }
 }

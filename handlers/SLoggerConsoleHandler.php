@@ -13,7 +13,7 @@ class SLoggerConsoleHandler extends SLoggerBaseHandler
     /**
      * @var string
      */
-    public $_formaterConfig = 'console';
+    protected $_formaterConfig = 'console';
 
     /**
      * Write log message

@@ -11,7 +11,6 @@ abstract class SLoggerBaseHandler extends CComponent
 {
     public static $bultInHandlers = array(
         'file'    => 'SLoggerFileHandler',
-        'email'   => 'SLoggerEmailHandler',
         'console' => 'SLoggerConsoleHandler',
     );
 
@@ -28,7 +27,7 @@ abstract class SLoggerBaseHandler extends CComponent
     /**
      * @var string|array config for default message formater
      */
-    private $_formaterConfig = 'default';
+    protected $_formaterConfig = 'default';
 
     /**
      * @var SLoggerBaseFormater
@@ -97,7 +96,7 @@ abstract class SLoggerBaseHandler extends CComponent
             }
             $config = array('class' => SLoggerBaseFormater::$bultInFormater[$config]);
         }
-        $formater = Yii::createComponent($config);
+        $formater = Yii::createComponent($config, $this);
         $formater->init();
         return $formater;
     }
@@ -118,7 +117,7 @@ abstract class SLoggerBaseHandler extends CComponent
     public function getLevels()
     {
         if ($this->_levels == null) {
-            $this->_levels = $this->createLevelsArray($this->_levels);
+            $this->_levels = $this->createLevelsArray($this->_levelsConfig);
         }
         return $this->_levels;
     }
@@ -131,7 +130,7 @@ abstract class SLoggerBaseHandler extends CComponent
      */
     protected function getIsLoggedLevel($level)
     {
-        return in_array($level, $this->_levels);
+        return in_array($level, $this->getLevels());
     }
 
     /**

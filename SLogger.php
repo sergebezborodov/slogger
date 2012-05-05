@@ -1,5 +1,9 @@
 <?php
 
+Yii::setPathOfAlias('slog', dirname(__FILE__));
+Yii::import('slog.handlers.*');
+Yii::import('slog.formaters.*');
+
 class SLoggerException extends CException {}
 
 /**
@@ -24,7 +28,6 @@ class SLogger extends CApplicationComponent
     private $_handlersConfig = array(
         'file',
         'console',
-        'email'
     );
 
     /**
@@ -95,7 +98,7 @@ class SLogger extends CApplicationComponent
             }
             $config = array('class' => SLoggerBaseHandler::$bultInHandlers[$config]);
         }
-        $handler = Yii::createComponent($config);
+        $handler = Yii::createComponent($config, $this);
         $handler->init();
         return $handler;
     }
