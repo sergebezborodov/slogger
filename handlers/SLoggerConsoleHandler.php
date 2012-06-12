@@ -35,5 +35,4 @@ class SLoggerConsoleHandler extends SLoggerBaseHandler
         echo $this->getFormater()->format($message, $target, $level, $from, $data) . "\r\n";
         return true;
     }
-
 }

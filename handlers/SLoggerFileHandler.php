@@ -23,7 +23,12 @@ class SLoggerFileHandler extends SLoggerBaseHandler
     /**
      * @var int max file size (in KB) for rotate
      */
-    public $rotateSize = 1024;
+    protected $_maxFileSize = 1024;
+
+    /**
+     * @var int max count for rotated files
+     */
+    protected $_maxFiles = 10;
 
     /**
      * @var int default directory access mode
@@ -59,11 +64,11 @@ class SLoggerFileHandler extends SLoggerBaseHandler
     protected function createFileResource($file)
     {
         if (strpos($file, '.') === false) {
-            $file .= '.'.$this->extension;
+            $file .= '.' . $this->extension;
         }
 
         // file name has directory
-        if ((($dirSlash = strpos($file, '/')) !== false) || strpos($file, '\\') !== false) {
+        if (($dirSlash = strpos($file, '/') !== false) || (strpos($file, '\\') !== false)) {
             $dir = $this->getPath() . DIRECTORY_SEPARATOR . substr($file, 0, strrpos($file, $dirSlash ? '/' : '\\'));
             if (!file_exists($dir) && !mkdir($dir, $this->directoryMode, true)) {
                 throw new SLoggerException("Unable to create log directory '{$dir}'");
@@ -71,11 +76,40 @@ class SLoggerFileHandler extends SLoggerBaseHandler
         }
 
         $file = $this->getPath() . DIRECTORY_SEPARATOR . $file;
+        if (@filesize($file) > $this->getMaxFileSize() * 1024) {
+            $this->rotateFile($file);
+        }
+
         if (($fp = fopen($file, 'a')) === false) {
             throw new SLoggerException("Unable to open log file '{$file}'");
         }
 
         return $fp;
+    }
+
+
+    /**
+     * Rotate file
+     *
+     * @param string $file
+     */
+    protected function rotateFile($file)
+    {
+        $max = $this->getMaxFiles();
+        for($i = $max; $i > 0; --$i) {
+            $rotateFile = $file . '.' . $i;
+            if (!is_file($rotateFile)) {
+                continue;
+            }
+            if ($i === $max) {
+                @unlink($rotateFile);
+            } else {
+                @rename($rotateFile, $file . '.' . ($i + 1));
+            }
+        }
+        if (is_file($file)) {
+            @rename($file, $file . '.1');
+        }
     }
 
     /**
@@ -134,5 +168,49 @@ class SLoggerFileHandler extends SLoggerBaseHandler
         foreach ($this->fileResources as $instance) {
             @fclose($instance);
         }
+    }
+
+    /**
+     * Set max log file size in KB
+     *
+     * @param int $size max file size in KB
+     */
+    public function setMaxFileSize($size)
+    {
+        if ((int)$size <= 0) {
+            throw new SLoggerException("File size must be greater than 0");
+        }
+
+        $this->_maxFileSize = (int)$size;
+    }
+
+    /**
+     * @return int max file size in KB
+     */
+    public function getMaxFileSize()
+    {
+        return $this->_maxFileSize;
+    }
+
+    /**
+     * Set max file count
+     *
+     * @param int $count
+     */
+    public function setMaxFiles($count)
+    {
+        if ((int)$count <= 0) {
+            throw new SLoggerException("Files count must be greater than 0");
+        }
+
+        $this->_maxFiles = (int)$count;
+    }
+
+    /**
+     * @return int max files count
+     */
+    public function getMaxFiles()
+    {
+        return $this->_maxFiles;
     }
 }
