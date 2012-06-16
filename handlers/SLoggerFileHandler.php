@@ -11,9 +11,9 @@ class SLoggerFileHandler extends SLoggerBaseHandler
     public $defaultFile = 'blackhole';
 
     /**
-     * @var string log file directory
+     * @var string log file directory, if null - use application runtime path
      */
-    protected $_path = 'application.runtime';
+    protected $_path;
 
     /**
      * @var string defaul log file extension (without dot)
@@ -127,6 +127,9 @@ class SLoggerFileHandler extends SLoggerBaseHandler
      */
     public function getPath()
     {
+        if ($this->_path == null) {
+            return Yii::app()->getRuntimePath();
+        }
         return Yii::getPathOfAlias($this->_path);
     }
 
