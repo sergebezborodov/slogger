@@ -20,4 +20,3 @@ Formaters - форматировщики сообщений. Формируют 
 Наследуются от класса SLoggerBaseFormater.
 Встроенные форматтеры:
  - SLoggerDefaultFormatter - стандартная форматировка строк
- - SLoggerConsoleFormater - форматировщик с поддержкой цветов для консоли unix

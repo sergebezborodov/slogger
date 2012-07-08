@@ -11,11 +11,6 @@ class SLoggerConsoleHandler extends SLoggerBaseHandler
     public $constant = 'CONSOLE_APP';
 
     /**
-     * @var string
-     */
-    protected $_formaterConfig = 'console';
-
-    /**
      * Write log message
      *
      * @param mixed       $message message to log
