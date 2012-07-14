@@ -16,7 +16,7 @@ class SLoggerMongoHandler extends SLoggerBaseHandler
     public $server = 'mongodb://localhost:27017';
 
     /**
-     * @var string collection na
+     * @var string collection name
      */
     public $collection = 'events';
 
