@@ -15,6 +15,7 @@ Handlers - обработчики, осуществляеют необходим
 Встроенные обработчики:
  - SLoggerFileHandler - запись лог сообщений в файл
  - SLoggerConsoleHandler - вывод лог сообщений в консоль
+ - SLoggerMongoHandler - запись логов в mongo db
 
 Formaters - форматировщики сообщений. Формируют сообщений в нужного вида для обработчиков.
 Наследуются от класса SLoggerBaseFormater.
