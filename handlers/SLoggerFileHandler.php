@@ -8,7 +8,7 @@ class SLoggerFileHandler extends SLoggerBaseHandler
     /**
      * @var string default file name
      */
-    public $defaultFile = 'blackhole';
+    public $defaultFile = 'application';
 
     /**
      * @var string log file directory, if null - use application runtime path
@@ -157,7 +157,7 @@ class SLoggerFileHandler extends SLoggerBaseHandler
         $file = $this->getFileResource($target);
 
         @flock($file, LOCK_EX);
-        fwrite($file, $message);
+        fwrite($file, $message.PHP_EOL);
         @flock($file, LOCK_UN);
 
         return true;

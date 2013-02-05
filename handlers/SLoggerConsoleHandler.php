@@ -6,6 +6,11 @@
 class SLoggerConsoleHandler extends SLoggerBaseHandler
 {
     /**
+     * @var string|array config for default message formater
+     */
+    protected $_formaterConfig = 'console';
+
+    /**
      * @var string constant name for checking current is console application
      */
     public $constant = 'CONSOLE_APP';

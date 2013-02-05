@@ -9,7 +9,7 @@ abstract class SLoggerBaseFormater extends CComponent
 {
     public static $bultInFormater = array(
         'default' => 'SLoggerDefaultFormater',
-        'console' => 'SLoggerConsoleFormater',
+        'console' => 'SLoggerConsoleColorFormatter',
     );
 
     /**

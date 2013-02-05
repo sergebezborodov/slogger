@@ -69,6 +69,6 @@ class SLoggerDefaultFormater extends SLoggerBaseFormater
             '{from}'         => $from,
         );
 
-        return str_replace(array_keys($values), array_values($values), $this->messageFormat) . PHP_EOL;
+        return str_replace(array_keys($values), array_values($values), $this->messageFormat);
     }
 }
